@@ -1,4 +1,4 @@
-# This script automatically locks the mailbox of the 
+# This script automatically locks the mailbox of the user
 
 DO
 {
