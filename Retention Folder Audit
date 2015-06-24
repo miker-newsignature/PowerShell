@@ -1,0 +1,3 @@
+Start-Transcript
+Get-Mailbox -ResultSize unlimited | Get-MailboxFolderStatistics | Where { $_.Name -like "Retention" } | FT Identity, *policy
+Stop-Transcript
