@@ -7,7 +7,7 @@ $everyone = Get-Mailbox -ResultSize unlimited
 
 ForEach($mb in ($everyone) )
 {
-$perms = Get-MailboxPermission $mb.alias | Where {$_.User.contains($kill.DisplayName) -eq $True }
+$perms = Get-MailboxPermission $mb.alias | Where Where { ($_.User.contains($kill.DisplayName) -eq $True) -or ($_.User.contains($kill.UserPrincipalName) -eq $True) }
 Write-host $mb.alias
 if ( $perms )
      {
