@@ -1,3 +1,8 @@
+# Creates a CSV file for the following Mailbox and MSOLUser attributes:
+# DisplayName, UserPrincipalName, ArchiveStatus, LitigationHoldEnabled, 
+# RetentionPolicy, RetentionHoldEnabled, HiddenFromAddressListsEnabled, 
+# IsLicensed, Licenses
+#
 # Create log folder and file.
 # Store path as a string.
 $path = "C:\temp\report"
