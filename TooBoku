@@ -1,0 +1,32 @@
+$Web = Read-Host "Enter URL Prefix of target library"
+$Path = Read-Host "Enter full path to the target"
+$Verbose = Read-Host "Do you want to see details? (y/n)"
+Write-Host Checking files in $Path, please wait...
+$dateTime = Get-Date -format yyyyMMdd-HHmmss
+$logFullPath = $Path + "Audit " + $dateTime + ".txt"
+New-Item $logFullPath -type file -Force
+#Get all files and folders under the path specified
+$Robo = robocopy $Path NULL /L /E /FP /XJ /TS /NJH /NC /NS /NDL /R:0 /W:0
+$Max = 278 - $web.length
+$Target = 250 - $web.length
+$trim = $Robo.count -10
+$items = $Robo[0..$Trim]
+    foreach ($item in $items)
+    {
+        #Report item has been found if verbose mode is selected
+        if ($Verbose -eq "y") 
+		{ 
+		Write-Host Found an item called
+		$item.substring(26)
+		}
+        
+        #Check if item name is 250 characters or more in length
+        if ($item.Length -gt $Max)
+        {
+            Write-Host $item.substring(26) is $item.Length characters and will need to be truncated down to $Target -ForegroundColor Yellow
+            $Log = $item.substring(28) + " is " + $item.Length + " characters"
+            Add-Content -Path $logFullPath -Value $Log
+        }
+        
+    }
+Add-Content -Path $logFullPath -Value "All file names and paths combined will need to be truncated down to $Target characters"
