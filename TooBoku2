@@ -1,0 +1,29 @@
+$Path = Read-Host "Full path to the target"
+$Verbose = Read-Host "Do you want to see details? (y/n)"
+Write-Host Checking files in $Path, please wait...
+$dateTime = Get-Date -format yyyyMMdd-HHmmss
+$logFullPath = $Path + "Audit " + $dateTime + ".txt"
+New-Item $logFullPath -type file -Force
+#Get all files and folders under the path specified
+$items = Get-ChildItem -Path $Path -Recurse -Force
+    foreach ($item in $items)
+    {
+        #Check if the item is a file or a folder
+        if ($item.PSIsContainer) { $type = "Folder" }
+        else { $type = "File" }
+        
+        #Report item has been found if verbose mode is selected
+        if ($Verbose -eq "y") 
+		{ 
+		Write-Host Found a $type called $item.FullName 
+		$item.PSPath
+		}
+        
+        #Check if item name is 128 characters or more in length
+        if ($item.Name.Length -gt 127)
+        {
+            Write-Host $type $item.Name is 128 characters or over and will need to be truncated -ForegroundColor Yellow
+            Add-Content -Path $logFullPath -Value $item.FullName
+        }
+        
+    }
